@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just For You ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(120deg,#000000,#2b0033);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Poppins',sans-serif;
+  color:white;
+  overflow:hidden;
+}
+
+.box{
+  text-align:center;
+  max-width:90%;
+  z-index:5;
+}
+
+img{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+  border-radius:50%;
+  border:4px solid #ff4d6d;
+  margin-bottom:15px;
+  box-shadow:0 0 20px rgba(255,77,109,0.7);
+  display:none;
+}
+
+.text{
+  font-size:20px;
+  min-height:90px;
+  line-height:1.6;
+}
+
+button{
+  margin-top:20px;
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(255,77,109,0.6);
+}
+
+.choice{
+  display:none;
+  gap:15px;
+  justify-content:center;
+}
+
+.heart{
+  position:absolute;
+  width:15px;
+  height:15px;
+  background:red;
+  transform:rotate(45deg);
+  animation:float 6s infinite;
+}
+
+.heart:before,.heart:after{
+  content:"";
+  width:15px;
+  height:15px;
+  background:red;
+  border-radius:50%;
+  position:absolute;
+}
+
+.heart:before{left:-7.5px;}
+.heart:after{top:-7.5px;}
+
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(45deg);}
+  100%{transform:translateY(-10vh) rotate(45deg);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔊 BACKGROUND MUSIC -->
+<audio id="bgMusic" src="song.mp3" loop></audio>
+
+<div class="box">
+
+  <!-- 📸 PHOTO -->
+  <img id="photo" src="photo.jpg" alt="Special One">
+
+  <div id="text" class="text"></div>
+
+  <button id="nextBtn" onclick="nextLine()" style="display:none">
+    Aage Dekho ❤️
+  </button>
+
+  <div id="choice" class="choice">
+    <button onclick="yes()">YES 💖</button>
+    <button onclick="no()">NO 😅</button>
+  </div>
+
+</div>
+
+<script>
+const lines = [
+  "Kuch log achanak zindagi me aate hain...",
+  "Aur bina kuch kahe sab kuch badal dete hain...",
+  "Mujhe nahi pata tum kya sochogi...",
+  "Par mere liye tum bahut special ho ❤️",
+  "Kya tum meri zindagi ka hissa banogi?"
+];
+
+let index = 0;
+const textEl = document.getElementById("text");
+const nextBtn = document.getElementById("nextBtn");
+const choice = document.getElementById("choice");
+const photo = document.getElementById("photo");
+const music = document.getElementById("bgMusic");
+
+function typeText(text, i = 0){
+  if(i < text.length){
+    textEl.innerHTML += text.charAt(i);
+    setTimeout(() => typeText(text, i + 1), 60);
+  } else {
+    if(index < lines.length - 1){
+      nextBtn.style.display = "inline-block";
+    } else {
+      choice.style.display = "flex";
+    }
+  }
+}
+
+function nextLine(){
+  nextBtn.style.display = "none";
+  textEl.innerHTML = "";
+  index++;
+
+  // 🎵 Music + Photo show on 2nd line
+  if(index === 1){
+    photo.style.display = "block";
+    music.play();
+  }
+
+  typeText(lines[index]);
+}
+
+function yes(){
+  textEl.innerHTML = "💖 Mujhe pata tha tum YES kahogi 💖";
+  choice.style.display = "none";
+}
+
+function no(){
+  textEl.innerHTML = "🙂 Koi baat nahi, dosti hamesha rahegi";
+  choice.style.display = "none";
+}
+
+typeText(lines[0]);
+
+for(let i=0;i<25;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDelay=Math.random()*5+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+</body>
+  </html>
